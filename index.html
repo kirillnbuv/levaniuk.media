@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEVANIUK.MEDIA - Photographer</title>
+    <link rel="icon" href="img/ico.webp" type="image/webp">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>LEVANIUK.MEDIA</h1>
+                <p>PHOTOGRAPHER KYRYL LEVANIUK</p>
+            </div>
+            <nav>
+                <a href="#">OVERVIEW</a>
+                <a href="#about">CONTACT / ABOUT</a>
+                <a href="#" class="search-link">SEARCH</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="gallery" id="gallery"></div>
+        </main>
+
+        <section id="about" class="about-section">
+            <h2 class="section-title">ABOUT ME</h2>
+            <div class="about-content">
+                <p>Kyryl Levaniuk — я фотограф.</p>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <h2 class="section-title">CONTACT FORM</h2>
+            
+            <form class="contact-form" id="contactForm">
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="text" placeholder="Subject">
+                <textarea placeholder="Message" rows="5" required></textarea>
+                
+                <div class="form-bottom">
+                    <div class="recaptcha-box">
+                        <label>
+                            <input type="checkbox" required> Я не робот
+                        </label>
+                        <div class="recaptcha-logo">
+                            <span class="icon">↻</span>
+                            <span class="text">reCAPTCHA</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Надіслати</button>
+                </div>
+                <p class="form-success" id="formSuccess">Повідомлення надіслано!</p>
+            </form>
+        </section>
+    </div>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn">&times;</span>
+        <button class="nav-btn prev-btn">&#10094;</button>
+        <img class="lightbox-content" id="lightbox-img" src="" alt="Full image">
+        <button class="nav-btn next-btn">&#10095;</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
