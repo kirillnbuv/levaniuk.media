@@ -17,7 +17,7 @@ body {
     padding: 40px 20px;
 }
 
-/* Шапка */
+/* Шапка та Пошук */
 header {
     display: flex;
     justify-content: space-between;
@@ -44,6 +44,7 @@ nav {
     display: flex;
     gap: 30px;
     padding-bottom: 5px;
+    align-items: center;
 }
 
 nav a {
@@ -58,12 +59,43 @@ nav a:hover {
     opacity: 0.5;
 }
 
+.nav-search {
+    border: none;
+    border-bottom: 1px solid transparent;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    width: 80px;
+    transition: width 0.3s ease, border-bottom 0.3s ease;
+    outline: none;
+    color: #1a1a1a;
+    cursor: pointer;
+}
+
+.nav-search:focus, .nav-search:not(:placeholder-shown) {
+    width: 180px;
+    border-bottom: 1px solid #1a1a1a;
+    cursor: text;
+}
+
+.nav-search::placeholder {
+    color: #1a1a1a;
+}
+
 /* Галерея */
 .gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
+    gap: 15px; /* Правка 1: збільшена відстань між клітинками (було 3px) */
     margin-bottom: 80px;
+}
+
+/* Картка серії (включає фото і підпис) */
+.gallery-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Відстань між фото і текстом підпису */
 }
 
 .gallery-item {
@@ -74,16 +106,17 @@ nav a:hover {
     position: relative;
 }
 
+/* Правка 2: Напівпрозорий білий шар при наведенні */
 .gallery-item::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0);
+    background: rgba(255, 255, 255, 0); /* Прозорий шар */
     transition: background 0.3s ease;
 }
 
 .gallery-item:hover::after {
-    background: rgba(0,0,0,0.15);
+    background: rgba(255, 255, 255, 0.2); /* 20% білого кольору */
 }
 
 .gallery-item img {
@@ -91,11 +124,15 @@ nav a:hover {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s ease;
+    /* Правка 2: Прибрано ефект збільшення (transform) */
 }
 
-.gallery-item:hover img {
-    transform: scale(1.04);
+/* Правка 3: Стиль підпису під фото */
+.gallery-caption {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    letter-spacing: 0.5px;
 }
 
 /* Секції */
@@ -146,7 +183,7 @@ nav a:hover {
     padding: 15px;
     border: none;
     background-color: rgba(255,255,255,0.85);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: inherit;
     font-size: 1rem;
     outline: none;
     transition: background 0.2s;
@@ -275,7 +312,7 @@ nav a:hover {
     }
     .gallery {
         grid-template-columns: repeat(2, 1fr);
-        gap: 2px;
+        gap: 15px;
     }
     .form-bottom {
         flex-direction: column;
@@ -283,6 +320,9 @@ nav a:hover {
     }
     .about-content {
         max-width: 100%;
+    }
+    .nav-search:focus, .nav-search:not(:placeholder-shown) {
+        width: 120px; /* Трохи менше поле пошуку на телефоні */
     }
 }
 
