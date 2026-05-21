@@ -1,11 +1,8 @@
-// Правки 3 та 4: Змінено структуру. 
-// Тепер кожна серія має 'title' (підпис під фото), 
-// 'tags' (слова для пошуку, наприклад параметри камери чи жанр), 
-// та масив 'images' з назвами файлів.
+// Колекції зображень (Замінюй тестові дані на свої назви файлів yyyymmddnnn.webp)
 const galleries = [
     {
         title: "Дерева в лісі",
-        tags: "чб природа дерева ліс f/8 ISO400",
+        tags: "чб природа дерева ліс f/8 ISO400 canon",
         images: [
             '20260424001.webp', 
             '20260424002.webp', 
@@ -16,7 +13,7 @@ const galleries = [
     },
     {
         title: "Міська архітектура",
-        tags: "місто будівлі вулиця репортаж",
+        tags: "місто будівлі вулиця репортаж 50mm",
         images: [
             '20260426001.webp',
             '20260426002.webp',
@@ -25,7 +22,7 @@ const galleries = [
     },
     {
         title: "Тіні на вікні",
-        tags: "світло тіні абстракція інтерєр",
+        tags: "світло тіні абстракція інтерєр f/2.8",
         images: [
             '20260428001.webp',
             '20260428002.webp'
@@ -44,43 +41,36 @@ const nextBtn = document.querySelector('.next-btn');
 let currentGallery = [];
 let currentPhotoIndex = 0;
 
-// Генеруємо сітку з можливістю фільтрації (Пошук)
+// Рендеринг сітки з можливістю динамічного пошуку
 function renderGallery(filterText = '') {
     galleryContainer.innerHTML = '';
     const lowerFilter = filterText.toLowerCase();
     
     galleries.forEach((series, index) => {
-        // Логіка пошуку: перевіряємо чи є введений текст у title або у tags
         const matchTitle = series.title.toLowerCase().includes(lowerFilter);
         const matchTags = series.tags.toLowerCase().includes(lowerFilter);
         
-        // Якщо текст пошуку не збігається, пропускаємо цю серію
         if (!matchTitle && !matchTags) return;
-        
         if (series.images.length === 0) return;
         
-        // Створюємо картку, яка триматиме і фото, і підпис
         const card = document.createElement('div');
         card.classList.add('gallery-card');
         
-        // Контейнер самого зображення (квадрат)
         const div = document.createElement('div');
         div.classList.add('gallery-item');
         
         const img = document.createElement('img');
-        img.src = 'img/' + series.images[0]; // Перше фото як обкладинка
+        img.src = 'img/' + series.images[0]; 
         img.alt = series.title;
         img.loading = 'lazy';
         
         div.addEventListener('click', () => openLightbox(index));
         div.appendChild(img);
         
-        // Підпис під фото
         const caption = document.createElement('div');
         caption.classList.add('gallery-caption');
-        caption.innerText = series.title; // Виводимо заголовок з масиву
+        caption.innerText = series.title; 
         
-        // Збираємо картку до купи
         card.appendChild(div);
         card.appendChild(caption);
         
@@ -88,16 +78,13 @@ function renderGallery(filterText = '') {
     });
 }
 
-// Слухач для поля пошуку: оновлює галерею при кожному введеному символі
 if (searchInput) {
     searchInput.addEventListener('input', (e) => {
         renderGallery(e.target.value);
     });
 }
 
-// Відкриваємо лайтбокс
 function openLightbox(galleryIndex) {
-    // Беремо масив images з обраного об'єкта
     currentGallery = galleries[galleryIndex].images; 
     currentPhotoIndex = 0;
     updateLightboxImage();
@@ -105,7 +92,6 @@ function openLightbox(galleryIndex) {
     document.body.style.overflow = 'hidden';
 }
 
-// Оновлюємо картинку та стрілки
 function updateLightboxImage() {
     lightboxImg.src = 'img/' + currentGallery[currentPhotoIndex];
     
@@ -154,20 +140,63 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Форма контактів
+// Первинний запуск галереї
+renderGallery();
+
+// =======================================================
+// ОФІЦІЙНА АСИНХРОННА ІНТЕГРАЦІЯ WEB3FORMS (З ТВОЇМ КЛЮЧЕМ)
+// =======================================================
 const contactForm = document.getElementById('contactForm');
 const formSuccess = document.getElementById('formSuccess');
+const submitBtn = contactForm ? contactForm.querySelector('.submit-btn') : null;
 
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        formSuccess.style.display = 'block';
-        contactForm.reset();
-        setTimeout(() => {
-            formSuccess.style.display = 'none';
-        }, 4000);
+if (contactForm && submitBtn) {
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault(); // Зупиняємо стандартне перезавантаження сторінки
+
+        const formData = new FormData(contactForm);
+        // Додатково вшиваємо твій унікальний токен у запит
+        formData.append("access_key", "96bb48c6-6091-4c97-af76-bf80f6fb69f7");
+
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = "Sending..."; // Текст кнопки під час запиту
+        submitBtn.disabled = true;           // Блокуємо повторні кліки
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Візуалізація успішного надсилання без потворних вікон alert()
+                formSuccess.style.display = "block";
+                formSuccess.style.color = "#1a1a1a";
+                formSuccess.textContent = "Success! Your message has been sent.";
+                contactForm.reset(); // Повністю очищуємо поля форми
+            } else {
+                // Помилка сервера конфігурації
+                formSuccess.style.display = "block";
+                formSuccess.style.color = "#d9534f";
+                formSuccess.textContent = "Error: " + data.message;
+            }
+
+        } catch (error) {
+            // Будь-яка помилка відсутності інтернету чи обриву зв'язку
+            formSuccess.style.display = "block";
+            formSuccess.style.color = "#d9534f";
+            formSuccess.textContent = "Something went wrong. Please try again.";
+        } finally {
+            // Повертаємо кнопку до початкового стану у будь-якому випадку
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+
+            // Ховаємо статусний рядок через 5 секунд
+            setTimeout(() => {
+                formSuccess.style.display = "none";
+            }, 5000);
+        }
     });
 }
-
-// Запуск галереї при завантаженні сторінки
-renderGallery();
