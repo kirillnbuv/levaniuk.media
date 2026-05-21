@@ -37,21 +37,16 @@
             <h2 class="section-title">CONTACT FORM</h2>
             
             <form class="contact-form" id="contactForm">
-                <input type="text" placeholder="Name" required>
-                <input type="email" placeholder="Email" required>
-                <input type="text" placeholder="Subject">
-                <textarea placeholder="Message" rows="5" required></textarea>
+                <input type="hidden" name="access_key" value="96bb48c6-6091-4c97-af76-bf80f6fb69f7">
+                
+                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="subject" placeholder="Subject">
+                <textarea name="message" placeholder="Message" rows="5" required></textarea>
                 
                 <div class="form-bottom">
-                    <div class="recaptcha-box">
-                        <label>
-                            <input type="checkbox" required> Я не робот
-                        </label>
-                        <div class="recaptcha-logo">
-                            <span class="icon">↻</span>
-                            <span class="text">reCAPTCHA</span>
-                        </div>
-                    </div>
                     <button type="submit" class="submit-btn">Надіслати</button>
                 </div>
                 <p class="form-success" id="formSuccess">Повідомлення надіслано!</p>
