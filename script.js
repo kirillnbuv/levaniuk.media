@@ -157,13 +157,13 @@ if (contactForm) {
 
         const formData = new FormData(contactForm);
         
-        // Повністю очищуємо та безпечно додаємо ключ без зайвих пробілів
+        // Очищуємо та безпечно додаємо ключ без пробілів
         formData.delete("access_key");
         formData.append("access_key", "96bb48c6-6091-4c97-af76-bf80f6fb69f7".trim());
 
         const originalText = submitBtn.textContent;
-        submitBtn.textContent = "Sending..."; // Текст кнопки під час запиту
-        submitBtn.disabled = true;           // Блокуємо кнопку від спаму повторними кліками
+        submitBtn.textContent = "Sending..."; // Процес надсилання (English)
+        submitBtn.disabled = true;           // Блокуємо повторні кліки
 
         try {
             const response = await fetch("https://api.web3forms.com/submit", {
@@ -174,25 +174,25 @@ if (contactForm) {
             const data = await response.json();
 
             if (response.ok) {
-                // Виведення успішного повідомлення під формою
+                // Повідомлення про успіх (English)
                 formSuccess.style.display = "block";
                 formSuccess.style.color = "#1a1a1a";
                 formSuccess.textContent = "Success! Your message has been sent.";
-                contactForm.reset(); // Повністю очищуємо поля форми
+                contactForm.reset(); // Очищення полів
             } else {
-                // Помилка сервера конфігурації
+                // Помилка конфігурації
                 formSuccess.style.display = "block";
                 formSuccess.style.color = "#d9534f";
                 formSuccess.textContent = "Error: " + data.message;
             }
 
         } catch (error) {
-            // Будь-яка помилка відсутності інтернету чи блокування локальних запитів CORS (file://)
+            // Помилка мережі / CORS
             formSuccess.style.display = "block";
             formSuccess.style.color = "#d9534f";
             formSuccess.textContent = "Something went wrong. Please check your internet or host the site.";
         } finally {
-            // Повертаємо кнопку до початкового стану у будь-якому випадку
+            // Повертаємо кнопку до початкового стану ("Send")
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
 
