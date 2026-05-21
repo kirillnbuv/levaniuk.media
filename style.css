@@ -87,15 +87,14 @@ nav a:hover {
 .gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px; /* Правка 1: збільшена відстань між клітинками (було 3px) */
+    gap: 15px; /* Правка: Збільшена відстань між клітинками */
     margin-bottom: 80px;
 }
 
-/* Картка серії (включає фото і підпис) */
 .gallery-card {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Відстань між фото і текстом підпису */
+    gap: 8px;
 }
 
 .gallery-item {
@@ -106,17 +105,17 @@ nav a:hover {
     position: relative;
 }
 
-/* Правка 2: Напівпрозорий білий шар при наведенні */
+/* Правка: Напівпрозорий білий шар 20% при наведенні */
 .gallery-item::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0); /* Прозорий шар */
+    background: rgba(255, 255, 255, 0);
     transition: background 0.3s ease;
 }
 
 .gallery-item:hover::after {
-    background: rgba(255, 255, 255, 0.2); /* 20% білого кольору */
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .gallery-item img {
@@ -124,10 +123,10 @@ nav a:hover {
     height: 100%;
     object-fit: cover;
     display: block;
-    /* Правка 2: Прибрано ефект збільшення (transform) */
+    /* Правка: Ефект збільшення масштабу видалено */
 }
 
-/* Правка 3: Стиль підпису під фото */
+/* Правка: Підписи під клітинками */
 .gallery-caption {
     font-size: 0.8rem;
     text-transform: uppercase;
@@ -200,28 +199,9 @@ nav a:hover {
 
 .form-bottom {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-top: 20px;
-}
-
-.recaptcha-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #f9f9f9;
-    padding: 10px 15px;
-    width: 250px;
-    border: 1px solid #ccc;
-    font-size: 0.9rem;
-}
-
-.recaptcha-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 0.6rem;
-    color: #555;
 }
 
 .submit-btn {
@@ -232,18 +212,20 @@ nav a:hover {
     border-radius: 25px;
     cursor: pointer;
     font-size: 1rem;
+    transition: background 0.2s;
 }
 
 .submit-btn:hover {
     background-color: #5c8eca;
 }
 
+/* Стилі стану надсилання повідомлень */
 .form-success {
     display: none;
     text-align: center;
     margin-top: 15px;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
     color: #1a1a1a;
 }
 
@@ -322,7 +304,7 @@ nav a:hover {
         max-width: 100%;
     }
     .nav-search:focus, .nav-search:not(:placeholder-shown) {
-        width: 120px; /* Трохи менше поле пошуку на телефоні */
+        width: 120px;
     }
 }
 
