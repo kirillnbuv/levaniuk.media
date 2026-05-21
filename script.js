@@ -2,7 +2,7 @@
 const galleries = [
     {
         title: "Дерева в лісі",
-        tags: "чб природа дерева ліс f/8 ISO400 canon",
+        tags: "чб природа дерева ліс f/8 ISO400",
         images: [
             '20260424001.webp', 
             '20260424002.webp', 
@@ -13,7 +13,7 @@ const galleries = [
     },
     {
         title: "Міська архітектура",
-        tags: "місто будівлі вулиця репортаж 50mm",
+        tags: "місто будівлі вулиця репортаж",
         images: [
             '20260426001.webp',
             '20260426002.webp',
@@ -22,7 +22,7 @@ const galleries = [
     },
     {
         title: "Тіні на вікні",
-        tags: "світло тіні абстракція інтерєр f/2.8",
+        tags: "світло тіні абстракція інтерєр",
         images: [
             '20260428001.webp',
             '20260428002.webp'
@@ -143,24 +143,23 @@ document.addEventListener('keydown', (e) => {
 // Первинний запуск галереї
 renderGallery();
 
-// =======================================================
-// ОФІЦІЙНА АСИНХРОННА ІНТЕГРАЦІЯ WEB3FORMS (З ТВОЇМ КЛЮЧЕМ)
-// =======================================================
+// ==========================================
+// АСИНХРОННА ВІДПРАВКА ФОРМИ (WEB3FORMS)
+// ==========================================
 const contactForm = document.getElementById('contactForm');
 const formSuccess = document.getElementById('formSuccess');
-const submitBtn = contactForm ? contactForm.querySelector('.submit-btn') : null;
 
-if (contactForm && submitBtn) {
+if (contactForm) {
+    const submitBtn = contactForm.querySelector('.submit-btn');
+
     contactForm.addEventListener('submit', async function(e) {
-        e.preventDefault(); // Зупиняємо стандартне перезавантаження сторінки
+        e.preventDefault(); // Зупиняємо базове перезавантаження сторінки
 
         const formData = new FormData(contactForm);
-        // Додатково вшиваємо твій унікальний токен у запит
-        formData.append("access_key", "96bb48c6-6091-4c97-af76-bf80f6fb69f7");
-
         const originalText = submitBtn.textContent;
-        submitBtn.textContent = "Sending..."; // Текст кнопки під час запиту
-        submitBtn.disabled = true;           // Блокуємо повторні кліки
+
+        submitBtn.textContent = "Sending..."; // Зміна тексту на кнопці
+        submitBtn.disabled = true;           // Блокування кнопки від повторних кліків
 
         try {
             const response = await fetch("https://api.web3forms.com/submit", {
@@ -171,29 +170,29 @@ if (contactForm && submitBtn) {
             const data = await response.json();
 
             if (response.ok) {
-                // Візуалізація успішного надсилання без потворних вікон alert()
+                // Виведення успішного повідомлення під формою
                 formSuccess.style.display = "block";
                 formSuccess.style.color = "#1a1a1a";
                 formSuccess.textContent = "Success! Your message has been sent.";
-                contactForm.reset(); // Повністю очищуємо поля форми
+                contactForm.reset(); // Очищення полів форми
             } else {
-                // Помилка сервера конфігурації
+                // Помилка конфігурації аккаунта сервісу
                 formSuccess.style.display = "block";
                 formSuccess.style.color = "#d9534f";
                 formSuccess.textContent = "Error: " + data.message;
             }
 
         } catch (error) {
-            // Будь-яка помилка відсутності інтернету чи обриву зв'язку
+            // Помилка мережі або блокування CORS при локальному запуску file://
             formSuccess.style.display = "block";
             formSuccess.style.color = "#d9534f";
-            formSuccess.textContent = "Something went wrong. Please try again.";
+            formSuccess.textContent = "Something went wrong. Please check your internet or try hosting.";
         } finally {
-            // Повертаємо кнопку до початкового стану у будь-якому випадку
+            // Повернення кнопки до стандартного стану
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
 
-            // Ховаємо статусний рядок через 5 секунд
+            // Приховування тексту статусу через 5 секунд
             setTimeout(() => {
                 formSuccess.style.display = "none";
             }, 5000);
