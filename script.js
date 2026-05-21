@@ -143,9 +143,9 @@ document.addEventListener('keydown', (e) => {
 // Первинний запуск галереї
 renderGallery();
 
-// ==========================================
-// АСИНХРОННА ВІДПРАВКА ФОРМИ (WEB3FORMS)
-// ==========================================
+// =======================================================
+// ОФІЦІЙНА АСИНХРОННА ІНТЕГРАЦІЯ WEB3FORMS (ЗАХИЩЕНА)
+// =======================================================
 const contactForm = document.getElementById('contactForm');
 const formSuccess = document.getElementById('formSuccess');
 
@@ -156,10 +156,14 @@ if (contactForm) {
         e.preventDefault(); // Зупиняємо базове перезавантаження сторінки
 
         const formData = new FormData(contactForm);
-        const originalText = submitBtn.textContent;
+        
+        // Повністю очищуємо та безпечно додаємо ключ без зайвих пробілів
+        formData.delete("access_key");
+        formData.append("access_key", "96bb48c6-6091-4c97-af76-bf80f6fb69f7".trim());
 
-        submitBtn.textContent = "Sending..."; // Зміна тексту на кнопці
-        submitBtn.disabled = true;           // Блокування кнопки від повторних кліків
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = "Sending..."; // Текст кнопки під час запиту
+        submitBtn.disabled = true;           // Блокуємо кнопку від спаму повторними кліками
 
         try {
             const response = await fetch("https://api.web3forms.com/submit", {
@@ -174,25 +178,25 @@ if (contactForm) {
                 formSuccess.style.display = "block";
                 formSuccess.style.color = "#1a1a1a";
                 formSuccess.textContent = "Success! Your message has been sent.";
-                contactForm.reset(); // Очищення полів форми
+                contactForm.reset(); // Повністю очищуємо поля форми
             } else {
-                // Помилка конфігурації аккаунта сервісу
+                // Помилка сервера конфігурації
                 formSuccess.style.display = "block";
                 formSuccess.style.color = "#d9534f";
                 formSuccess.textContent = "Error: " + data.message;
             }
 
         } catch (error) {
-            // Помилка мережі або блокування CORS при локальному запуску file://
+            // Будь-яка помилка відсутності інтернету чи блокування локальних запитів CORS (file://)
             formSuccess.style.display = "block";
             formSuccess.style.color = "#d9534f";
-            formSuccess.textContent = "Something went wrong. Please check your internet or try hosting.";
+            formSuccess.textContent = "Something went wrong. Please check your internet or host the site.";
         } finally {
-            // Повернення кнопки до стандартного стану
+            // Повертаємо кнопку до початкового стану у будь-якому випадку
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
 
-            // Приховування тексту статусу через 5 секунд
+            // Ховаємо статусний рядок через 5 секунд
             setTimeout(() => {
                 formSuccess.style.display = "none";
             }, 5000);
